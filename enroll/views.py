@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from sqlalchemy import true
 # from django.contrib.auth.forms import UserCreationForm
-from . forms import SignUpForm
+from . forms import SignUpForm, EditUserForm
 # Create your views here.
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm , SetPasswordForm
@@ -19,10 +19,6 @@ def sign_up(request):
         fm=SignUpForm()
     return render(request,'enroll/signup.html',{"form":fm})
 
-# from django.http import HttpResponseRedirect
-# from django.shortcuts import render
-# from django.contrib.auth.forms import AuthenticationForm
-# from django.contrib.auth import authenticate, login, logout
 
 def user_login(request):
     if not request.user.is_authenticated:
@@ -45,7 +41,14 @@ def user_login(request):
 
 def profile(request):
     if request.user.is_authenticated:
-        return render(request,'enroll/profile.html')
+        if request.method == 'POST':
+            fm = EditUserForm(request.POST,instance=request.user )
+            if fm.is_valid():
+                fm.save()
+                messages.success(request,"edit successfully")
+        else:
+            fm = EditUserForm(instance = request.user)
+        return render(request,'enroll/profile.html',{'name':request.user, 'form':fm})
     else:
         return HttpResponseRedirect('/users/login/')
 

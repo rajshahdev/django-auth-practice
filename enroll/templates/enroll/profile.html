@@ -7,12 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>hello world</h2>
+    <h2>Hello {{name}}</h2>
     {% if messages %}
     {% for message in messages %}
     <small {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}</small>
     {% endfor %}
     {% endif %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+        <p>{{error}}</p>
+        {% endfor %}
+        {% endif %}
+        {% for fm in form %}
+        {{fm.label_tag}} {{fm}} {{fm.errors|striptags}} <br> <br>   
+        {% endfor %}
+        <input type="submit" value="submit">
+    </form>
     <a href="{% url 'logout' %}">logout</a>
     <a href="{% url 'password' %}">Change with old password</a>
     <a href="{% url 'passwordreset' %}">Change with reset password</a>
