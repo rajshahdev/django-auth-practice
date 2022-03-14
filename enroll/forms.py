@@ -8,7 +8,7 @@ class SignUpForm(UserCreationForm):
         fields = ['username','first_name','last_name','email']
         labels = {'email':'Email'}   
 
-
+from django.contrib.auth.forms import UserChangeForm
 class EditUserForm(UserChangeForm):
     password=None
     class Meta:

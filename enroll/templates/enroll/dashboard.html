@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Hello...{{user.username}}</h2>
+    {% if perms.enroll.delete_blog %}
+    <input type="button" value="Delete">
+    {% else %}
+    <p>No delete permission</p>
+    {% endif %}
+    {% if perms.enroll.add_blog %}
+    <input type="button" value="add">
+    {% else %}
+    <p>No add permission</p>
+    {% endif %}
+    {% if perms.enroll.change_blog %}
+    <input type="button" value="change">
+    {% else %}
+    <p>No change permission</p>
+    {% endif %}
+    <a href="{% url 'logout' %}">logout</a>
+</body>
+</html>
